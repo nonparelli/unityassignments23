@@ -25,6 +25,7 @@ public class Vectors : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        Vector3 origin = Vector3.zero;
         //Gizmos.color;
         Vector2 vecA = A.transform.position;
         Vector2 vecB = B.transform.position;
@@ -41,24 +42,24 @@ public class Vectors : MonoBehaviour
         DrawVector(new Vector3(0,-axis_length,0),new Vector3( 0,axis_length, 0), Color.green);
 
         Gizmos.color = Color.white;
-        Handles.DrawWireDisc(new Vector3(0, 0, 0), Vector3.forward, 1.0f);
+        Handles.DrawWireDisc(origin, Vector3.forward, 1.0f);
 
         // Draw Vector A
-        DrawVector(new Vector3(0, 0, 0), A.transform.position, Color.black);
+        DrawVector(origin, A.transform.position, Color.black);
         Gizmos.color = Color.black;
         // draw normalized vector from a
-        DrawVector(new Vector3(0, 0, 0), vecNA, Color.blue);
+        DrawVector(origin, vecNA, Color.blue);
 
         // Draw Vector B
-        DrawVector(new Vector3(0,0,0),B.transform.position,Color.black);
+        DrawVector(origin,B.transform.position,Color.black);
         Gizmos.color = Color.black;
         // draw normalized vector from b
-        DrawVector(new Vector3(0, 0, 0), vecNB, Color.blue);
+        DrawVector(origin, vecNB, Color.blue);
 
         //Vector projection: Dot(vecN,vecB)*vecN
         Vector2 vecProj = vecNA * scalarDot;
         //Draw vector projection?
-        DrawVector(Vector3.zero, vecProj, Color.Lerp(Color.clear, Color.magenta, 0.5f));
+        DrawVector(origin, vecProj, Color.Lerp(Color.clear, Color.magenta, 0.5f));
     }
     void DrawVector(Vector3 from, Vector3 to, Color c)
     {
