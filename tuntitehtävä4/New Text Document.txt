@@ -1,0 +1,3 @@
+Radial trigger = radius check (is it within thing's range?)
+LookAt trigger = pistetulo (is thing looking at it?)
+
