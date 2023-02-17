@@ -10,26 +10,20 @@ public class LookAtTrigger : MonoBehaviour
     public GameObject LookAtDirection;
     public GameObject LookAtTarget;
 
-    [Range(0f,1f)]
-    public float LookAtThreshold;
-    public float scalarDot;
+    //[Range(0f,1f)]
+    //public float LookAtThreshold;
+    [Range (0f,90f)]
+    public float fovDegrees;
 
-    public float degrees;
-
+    [SerializeField] private float threshold;
+    [SerializeField] private float scalarDot;
     //Create a vector projection of target in line with lookat direction
     // once the distance between the projection and the direction is small enough, target is seen
     private void OnDrawGizmos()
     {
-
-        // This whole tihng only works if our LookAtTrigger is at 0,0.... otherwise the calculations freak out........
-        // Probably because stuff is still being treated as relative to 0,0 instead of the LookAtTrigger.
-        // We would need to set stuff as this trigger's children and use localpositions instead..
-        //LookAtDirection.transform.SetParent(transform, true);
-        //LookAtTarget.transform.SetParent(transform, true);
-        // THIS LOOKS MESSY BC I TRIED TO FIX THIS POROBLEM :(
-        // I wanted to do it without having to parent the objects
-        Vector2 vecDir = LookAtDirection.transform.position;
-        Vector2 vecTarget = LookAtTarget.transform.position;
+        // OH MY GOD i swear i tried taking out the position before and it didnt work.....
+        Vector2 vecDir = LookAtDirection.transform.position-transform.position;
+        Vector2 vecTarget = LookAtTarget.transform.position-transform.position;
 
         float vecDirMagnitude = Mathf.Sqrt(vecDir.x * vecDir.x + vecDir.y * vecDir.y);
         float vecTargetMagnitude = Mathf.Sqrt(vecTarget.x * vecTarget.x + vecTarget.y * vecTarget.y);
@@ -46,8 +40,11 @@ public class LookAtTrigger : MonoBehaviour
         //Are my calcs just fucked??? why does it not work manually but works with these
         scalarDot = Vector2.Dot(vecDirN, vecTargetN);
 
+        //degrees = Mathf.Rad2Deg * Mathf.Acos(LookAtThreshold);
+        threshold = Mathf.Cos(degrees*Mathf.Deg2Rad);
+
         // If target is outside of seeing sector we do NOT color red
-        if (scalarDot > LookAtThreshold && vecDirMagnitude > vecTargetMagnitude)   
+        if (scalarDot > threshold && vecDirMagnitude > vecTargetMagnitude)   
         {
             Gizmos.color = Color.red;
         }
@@ -68,12 +65,12 @@ public class LookAtTrigger : MonoBehaviour
         // so
         // cos angle = dot product / a.magnitude * b.magnitude, so scalarDot..?
         // so angle should be arccos(scalarDot) ?
-        degrees = Mathf.Rad2Deg*Mathf.Acos(LookAtThreshold);
+
 
         Handles.color = Color.Lerp(Color.magenta, Color.clear, 0.9f);
         //We have two of these for both sides because im too lazy to calculate a real starting position for this vector...
         Debug.Log(LookAtDirection.transform.position);
-        Handles.DrawSolidArc(transform.position,Vector3.forward, LookAtDirection.transform.localPosition, degrees,Vector2.Distance(transform.position, LookAtDirection.transform.position));
-        Handles.DrawSolidArc(transform.position, Vector3.forward, LookAtDirection.transform.localPosition, -degrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
+        Handles.DrawSolidArc(transform.position,Vector3.forward, vecDir, degrees,Vector2.Distance(transform.position, LookAtDirection.transform.position));
+        Handles.DrawSolidArc(transform.position, Vector3.forward, vecDir, -degrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
     }
 }
