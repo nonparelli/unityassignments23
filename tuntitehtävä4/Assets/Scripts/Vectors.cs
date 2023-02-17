@@ -61,9 +61,9 @@ public class Vectors : MonoBehaviour
 
 
         // Vector projection: Dot(vecN,vecB)*vecN
-        //Vector2 vecProj = vecNA * scalarDot;
+        Vector2 vecProj = vecNA * scalarDot;
         // Draw vector projection?
-        //DrawVector(origin, vecProj, Color.Lerp(Color.clear, Color.magenta, 0.5f));
+        DrawVector(origin, vecProj, Color.Lerp(Color.clear, Color.magenta, 0.5f));
     }
     void DrawVector(Vector3 from, Vector3 to, Color c)
     {
