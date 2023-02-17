@@ -41,7 +41,7 @@ public class LookAtTrigger : MonoBehaviour
         scalarDot = Vector2.Dot(vecDirN, vecTargetN);
 
         //degrees = Mathf.Rad2Deg * Mathf.Acos(LookAtThreshold);
-        threshold = Mathf.Cos(degrees*Mathf.Deg2Rad);
+        threshold = Mathf.Cos(fovDegrees*Mathf.Deg2Rad);
 
         // If target is outside of seeing sector we do NOT color red
         if (scalarDot > threshold && vecDirMagnitude > vecTargetMagnitude)   
@@ -69,8 +69,8 @@ public class LookAtTrigger : MonoBehaviour
 
         Handles.color = Color.Lerp(Color.magenta, Color.clear, 0.9f);
         //We have two of these for both sides because im too lazy to calculate a real starting position for this vector...
-        Debug.Log(LookAtDirection.transform.position);
-        Handles.DrawSolidArc(transform.position,Vector3.forward, vecDir, degrees,Vector2.Distance(transform.position, LookAtDirection.transform.position));
-        Handles.DrawSolidArc(transform.position, Vector3.forward, vecDir, -degrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
+        //Debug.Log(LookAtDirection.transform.position);
+        Handles.DrawSolidArc(transform.position,Vector3.forward, vecDir, fovDegrees,Vector2.Distance(transform.position, LookAtDirection.transform.position));
+        Handles.DrawSolidArc(transform.position, Vector3.forward, vecDir, -fovDegrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
     }
 }
