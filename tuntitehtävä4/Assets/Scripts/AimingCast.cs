@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class AimingCast : MonoBehaviour
 {
-    bool instantiatedTank = false;
     public GameObject tank;
 
     private void Start()
