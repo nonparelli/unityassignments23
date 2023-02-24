@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyGizmos : MonoBehaviour
+public static class MyGizmos
 {
     public static void DrawVectorLine(Vector3 from, Vector3 to, Color c)
     {
