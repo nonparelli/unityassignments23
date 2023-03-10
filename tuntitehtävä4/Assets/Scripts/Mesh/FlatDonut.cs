@@ -10,15 +10,11 @@ public class FlatDonut : MonoBehaviour
     public float Radius = 1.0f;
     [Range(2,10)]
     public float OuterRadius = 2.0f;
-
     private float TAU = 2 * Mathf.PI;
-
     private void GenerateMesh()
     {
         Mesh mesh = new Mesh();
-
         List<Vector3> verts = new List<Vector3>();
-
         for (int i = 0; i < N; i++)
         {
             float theta = TAU * i / N; // angle of current iteration
@@ -53,7 +49,6 @@ public class FlatDonut : MonoBehaviour
         tri_indices.Add(InFirst);
         tri_indices.Add(OutFirst);
         tri_indices.Add(OutSecond);
-
         tri_indices.Add(InFirst);
         tri_indices.Add(OutSecond);
         tri_indices.Add(InSecond);
