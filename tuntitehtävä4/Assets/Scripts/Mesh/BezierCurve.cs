@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BezierPath : MonoBehaviour
+public class BezierCurve : MonoBehaviour
 {
     public GameObject A;
     public GameObject B;
@@ -55,6 +55,23 @@ public class BezierPath : MonoBehaviour
         Vector3 PtO = (1 - T) * PtR + T * PtS;
         Gizmos.color = Color.black;
         Gizmos.DrawSphere(PtO, 0.1f);
+
+        //Draw a curve!
+        Vector3 PtT = PtA;
+        for(float i =0; i < 1; i += 0.05f)
+        {
+            Vector3 PtXT = (1 - i) * PtA + i * PtB;
+            Vector3 PtYT = (1 - i) * PtB + i * PtC;
+            Vector3 PtZT = (1 - i) * PtC + i * PtD;
+
+            Vector3 PtRT = (1 - i) * PtXT + i * PtYT;
+            Vector3 PtST = (1 - i) * PtYT + i * PtZT;
+
+            Vector3 PtT2 = (1 - i) * PtRT + i * PtST;
+            Gizmos.DrawLine(PtT, PtT2);
+            PtT = PtT2;
+        }
+        Gizmos.DrawLine(PtT, PtD);
     }
 
 }
