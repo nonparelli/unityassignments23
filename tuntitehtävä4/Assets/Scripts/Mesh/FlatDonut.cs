@@ -11,7 +11,7 @@ public class FlatDonut : MonoBehaviour
     [Range(2,10)]
     public float OuterRadius = 2.0f;
     private float TAU = 2 * Mathf.PI;
-    private void GenerateMesh()
+    private void GenerateDonut()
     {
         Mesh mesh = new Mesh();
         List<Vector3> verts = new List<Vector3>();
@@ -61,12 +61,12 @@ public class FlatDonut : MonoBehaviour
     }
     void Start()
     {
-        GenerateMesh();
+        GenerateDonut();
     }
 
     private void OnValidate()
     {
-        GenerateMesh();
+        GenerateDonut();
     }
 
     // Update is called once per frame
