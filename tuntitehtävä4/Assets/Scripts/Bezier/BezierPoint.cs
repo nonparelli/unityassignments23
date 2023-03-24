@@ -17,10 +17,10 @@ public class BezierPoint : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Transform anchor = gameObject.transform;
+        //Transform anchor = gameObject.transform;
 
         Gizmos.color = Color.black;
-        Gizmos.DrawLine(control0.position, anchor.position);
-        Gizmos.DrawLine(control1.position, anchor.position);
+        Gizmos.DrawLine(control0.position, Anchor.position);
+        Gizmos.DrawLine(control1.position, Anchor.position);
     }
 }
