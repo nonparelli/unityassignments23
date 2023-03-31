@@ -31,12 +31,24 @@ public class BezierPath : MonoBehaviour
                    points[points.Length - 1].control1.position,
                    points[0].control0.position, Color.blue, null, 2f);
         */
-        //Step 1: draw the road segments
+        //Step 1: construct a road segment
+        Vector3 tPos = GetBezierPosition(t, points[0], points[1]);
+        Vector3 tDir = GetBezierDirection(t, points[0], points[1]);
+
+        Gizmos.color = Color.red;
+
+        Quaternion rot = Quaternion.LookRotation(tDir);
+        Handles.PositionHandle(tPos, rot);
+
+        Gizmos.DrawSphere(tPos, 0.25f);
+
         for (float i = 0; i < 1f; i+=1f / segments)
             DrawRoadSegment(i);
         DrawRoadSegment(1f);
-        //Step 2: draw lines between them?
-
+        //Step 2: draw lines between them? uhhhh
+        for (float i = 1f / segments; i < 1f; i += 1f / segments)
+            DrawRoadLines(i);
+        DrawRoadLines(1f);
     }
     void DrawRoadSegment(float seg)
     {
@@ -46,17 +58,49 @@ public class BezierPath : MonoBehaviour
         Gizmos.color = Color.red;
 
         Quaternion rot = Quaternion.LookRotation(tDir);
-        Handles.PositionHandle(tPos, rot);
+        //Handles.PositionHandle(tPos, rot);
 
+        Vector3 previous =tPos + (rot * road2D.Vertices[0].point);
         for (int i = 0; i < road2D.Vertices.Length; i++)
         {
             Vector3 roadpoint = road2D.Vertices[i].point;
             Gizmos.DrawSphere(tPos + (rot * roadpoint), 0.25f);
+        }
+        //Draw lines
+        Gizmos.color = Color.white;
+        for (int i = 0; i < road2D.Vertices.Length; i++)
+        {
+            Vector3 roadpoint = road2D.Vertices[i].point;
+            Vector3 current = tPos + (rot * roadpoint);
+            Gizmos.DrawLine(previous, current);
+            previous = current;
+        }
+    }
+    void DrawRoadLines(float seg)
+    {
+        Vector3 tPos = GetBezierPosition(seg, points[0], points[1]);
+        Vector3 tDir = GetBezierDirection(seg, points[0], points[1]);
+        Vector3 tPos2 = GetBezierPosition(seg- 1f / segments, points[0], points[1]);
+        Vector3 tDir2 = GetBezierDirection(seg- 1f / segments, points[0], points[1]);
 
+        Gizmos.color = Color.white;
+
+        Quaternion rot = Quaternion.LookRotation(tDir);
+        Quaternion rot2 = Quaternion.LookRotation(tDir2);
+
+        //Handles.PositionHandle(tPos, rot);
+
+        //Vector3 previous = tPos2 + (rot2 * road2D.Vertices[0].point);
+        for (int i = 0; i< road2D.Vertices.Length; i++)
+        {
+            Vector3 roadpoint = road2D.Vertices[i].point;
+            Vector3 roadpoint2 = road2D.Vertices[i].point;
+            Vector3 prev = tPos2 + (rot2 * roadpoint2);
+            Vector3 next = tPos + (rot * roadpoint);
+            Gizmos.DrawLine(prev, next);
         }
 
     }
-
     Vector3 GetBezierPosition(float t, BezierPoint bp1, BezierPoint bp2)
     {
         Vector3 PtX = (1 - t) * bp1.Anchor.position + t * bp1.control1.position;
