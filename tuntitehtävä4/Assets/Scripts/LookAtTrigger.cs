@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 
 public class LookAtTrigger : MonoBehaviour
 {
+    // This is more of a wedge isnt it. Now how do we make it thick ?? Change it to use Vector3D for one i guess?
     public GameObject LookAtDirection;
     public GameObject LookAtTarget;
 
@@ -22,14 +23,14 @@ public class LookAtTrigger : MonoBehaviour
     private void OnDrawGizmos()
     {
         // OH MY GOD i swear i tried taking out the position before and it didnt work.....
-        Vector2 vecDir = LookAtDirection.transform.position-transform.position;
-        Vector2 vecTarget = LookAtTarget.transform.position-transform.position;
+        Vector3 vecDir = LookAtDirection.transform.position-transform.position;
+        Vector3 vecTarget = LookAtTarget.transform.position-transform.position;
 
         float vecDirMagnitude = Mathf.Sqrt(vecDir.x * vecDir.x + vecDir.y * vecDir.y);
         float vecTargetMagnitude = Mathf.Sqrt(vecTarget.x * vecTarget.x + vecTarget.y * vecTarget.y);
 
-        Vector2 vecDirN = vecDir / vecDirMagnitude;
-        Vector2 vecTargetN = vecTarget / vecTargetMagnitude;
+        Vector3 vecDirN = vecDir / vecDirMagnitude;
+        Vector3 vecTargetN = vecTarget / vecTargetMagnitude;
 
         // HUH what the heck is wrong wasn't i doing it right
         vecDirN = vecDir.normalized;
@@ -38,7 +39,7 @@ public class LookAtTrigger : MonoBehaviour
         scalarDot = (vecDirN.x * vecTargetN.x) + (vecDirN.y * vecTarget.y);
 
         //Are my calcs just fucked??? why does it not work manually but works with these
-        scalarDot = Vector2.Dot(vecDirN, vecTargetN);
+        scalarDot = Vector3.Dot(vecDirN, vecTargetN);
 
         //degrees = Mathf.Rad2Deg * Mathf.Acos(LookAtThreshold);
         threshold = Mathf.Cos(fovDegrees*Mathf.Deg2Rad);
@@ -54,7 +55,7 @@ public class LookAtTrigger : MonoBehaviour
         }
 
 
-        Gizmos.DrawSphere(LookAtTarget.transform.position,0.05f);
+        //Gizmos.DrawSphere(LookAtTarget.transform.position,1f);
 
         // How do we draw the lookat sector?
         // Use Handles.DrawSolidArc probably
@@ -66,11 +67,13 @@ public class LookAtTrigger : MonoBehaviour
         // cos angle = dot product / a.magnitude * b.magnitude, so scalarDot..?
         // so angle should be arccos(scalarDot) ?
 
-
         Handles.color = Color.Lerp(Color.magenta, Color.clear, 0.9f);
         //We have two of these for both sides because im too lazy to calculate a real starting position for this vector...
         //Debug.Log(LookAtDirection.transform.position);
         Handles.DrawSolidArc(transform.position,Vector3.forward, vecDir, fovDegrees,Vector2.Distance(transform.position, LookAtDirection.transform.position));
-        Handles.DrawSolidArc(transform.position, Vector3.forward, vecDir, -fovDegrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
+        Handles.DrawSolidArc(transform.position, Vector3.back, vecDir, fovDegrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
+
+        Handles.DrawSolidArc(transform.position, Vector3.up, vecDir, fovDegrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
+        Handles.DrawSolidArc(transform.position, Vector3.down, vecDir, fovDegrees, Vector2.Distance(transform.position, LookAtDirection.transform.position));
     }
 }
