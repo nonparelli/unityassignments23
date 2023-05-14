@@ -159,7 +159,7 @@ public class BezierPath : MonoBehaviour
                 // local to world-transform
                 Vector3 worldpoint = tPos + rot * roadpoint;
                 // Add this world point to our verts
-                verts.Add(worldpoint);
+                verts.Add(transform.InverseTransformPoint(worldpoint));
                 //add uv coord
                 uvs.Add(new Vector2(roadpoint.x / 10.0f + 0.5f, tt));
             }
