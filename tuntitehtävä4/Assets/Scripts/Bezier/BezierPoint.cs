@@ -5,14 +5,14 @@ using UnityEditor;
 
 public class BezierPoint : MonoBehaviour
 {
-
     public Transform control0; // First control point
     public Transform control1; // Second control point
 
     public Transform Anchor { get { return gameObject.transform; } }
+
     void OnValidate()
     {
-
+        // update parent too?? somehow ??
     }
 
     private void OnDrawGizmos()

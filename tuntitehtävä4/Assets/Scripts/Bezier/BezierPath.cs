@@ -28,6 +28,7 @@ public class BezierPath : MonoBehaviour
     {
         GenerateMesh();
     }
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < points.Length - 1; i++)
@@ -59,9 +60,11 @@ public class BezierPath : MonoBehaviour
         if(continuous)
             DrawBezierPart(points[points.Length-1],points[0]);
 
-        // V placement counts ALL of the bezier... hmmmmm
+        // V placement should count ALL of the bezier... hmmmmm
         GetPositionAt();
-       
+
+        // onvalidate is not enough
+        GenerateMesh();
     }
 
     private void DrawBezierPart(BezierPoint point0, BezierPoint point1)
@@ -285,8 +288,7 @@ public class BezierPath : MonoBehaviour
         float s = 1f / (float)p; // this is the threshold for skipping between curves.
 
         // Get how many times s fits in v ? so divide then floor? to see which segment we're on?? T
-        int c = Mathf.FloorToInt(Mathf.Clamp(v / s,0,p));
-
+        int c = Mathf.FloorToInt(Mathf.Clamp(v / s,0,p-1));
         // We need to scale V somehow to our curvecount??
         // The moving bit
         Vector3 tPos = new Vector3();
@@ -309,7 +311,6 @@ public class BezierPath : MonoBehaviour
 
         Quaternion rot = Quaternion.LookRotation(tDir);
         Handles.PositionHandle(tPos, rot); // The moving thing i think ??
-
         return Vector3.forward;
     }
 }
