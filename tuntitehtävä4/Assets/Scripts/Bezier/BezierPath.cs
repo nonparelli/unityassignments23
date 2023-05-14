@@ -23,6 +23,11 @@ public class BezierPath : MonoBehaviour
     List<Vector3> verts = new List<Vector3>();
     List<Vector2> uvs = new List<Vector2>();
     List<int> tri_indices = new List<int>();
+
+    // object to set on track
+    [SerializeField]
+    GameObject vehicle;
+
     // Start is called before the first frame update
     private void OnValidate()
     {
@@ -310,7 +315,9 @@ public class BezierPath : MonoBehaviour
         // Try to get the rotation
 
         Quaternion rot = Quaternion.LookRotation(tDir);
-        Handles.PositionHandle(tPos, rot); // The moving thing i think ??
+        //Handles.PositionHandle(tPos, rot); // The moving thing i think ??
+        vehicle.transform.position = tPos;
+        vehicle.transform.rotation = rot;
         return Vector3.forward;
     }
 }
