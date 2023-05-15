@@ -55,7 +55,7 @@ public class BezierPath : MonoBehaviour
         // Try to get the rotation
 
         Quaternion rot = Quaternion.LookRotation(tDir);
-        Handles.PositionHandle(tPos, rot); // The moving thing i think ??
+       // Handles.PositionHandle(tPos, rot); // The moving thing i think ??
 
         // Draw road segments
         // DRAWS THE GUIDE WIREFFRAME

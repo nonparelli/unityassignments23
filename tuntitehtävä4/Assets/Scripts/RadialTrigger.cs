@@ -24,6 +24,7 @@ public class RadialTrigger : MonoBehaviour
         if (Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y) < Radius)
         {
             Gizmos.color = Color.red;
+            Debug.Log("Vehicle at the finish line!");
 
         }
         else

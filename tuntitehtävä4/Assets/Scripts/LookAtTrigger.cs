@@ -48,6 +48,7 @@ public class LookAtTrigger : MonoBehaviour
         if (scalarDot > threshold && vecDirMagnitude > vecTargetMagnitude)   
         {
             Gizmos.color = Color.red;
+            Debug.Log("Vehicle at the mountains!");
         }
         else
         {
